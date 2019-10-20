@@ -11,7 +11,7 @@ export default function Pagination({ current, total, onClick }) {
 		onClick(page)
 	}
 	return (
-		<ul className="pagination pagination-sm">
+		<ul className="pagination pagination-sm flex-wrap">
 			{pages.map((page, idx) => (
 				<li
 					className={`page-item ${

@@ -59,7 +59,7 @@ function App() {
 					Ricky & Morty
 				</a>
 			</nav>
-			<div className="container" style={{ paddingBottom: '5em' }}>
+			<div className="container page-container">
 				{characters && characters.length <= 0 ? (
 					<section className="loader-container">
 						<div className="spinner-grow" role="status">
@@ -69,7 +69,7 @@ function App() {
 				) : (
 					<>
 						<div className="row">
-							<div className="col-md-10 offset-md-1">
+							<div className="card-container col-md-10 offset-md-1">
 								<Cards
 									items={characters}
 									locations={locations}

@@ -36,7 +36,7 @@ describe('Card', () => {
 		expect(wrapper).toMatchSnapshot()
 	})
 	it('should be grouped', () => {
-		expect(wrapper.find('.row.card-container')).toHaveLength(props.groupBy)
+		expect(wrapper.find('.row')).toHaveLength(props.groupBy)
 	})
 	it('should render Location', () => {
 		expect(wrapper.find('Location')).toHaveLength(props.items.length)

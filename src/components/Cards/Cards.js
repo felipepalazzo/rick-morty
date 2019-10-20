@@ -16,9 +16,13 @@ export default function Cards({ items, groupBy, episodes, locations }) {
 		return episodes.filter(ep => ids.includes(ep.id))
 	}
 	return chunks.map((group, idx) => (
-		<div className="row card-container" key={idx}>
+		<div className="row" key={idx}>
 			{group.map(card => (
-				<div className={`col-md-${gridLayout / groupBy}`} key={card.id}>
+				<div
+					className={`col-lg-${gridLayout /
+						groupBy} col-md-6 col-sm-6 col-xs-12`}
+					key={card.id}
+				>
 					<div className="card">
 						<img
 							src={card.image}
