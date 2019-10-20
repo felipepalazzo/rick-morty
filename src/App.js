@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { List } from './components'
+import { Cards } from './components'
 import api from './api'
 import './App.css'
 
 function App() {
 	const [characters, setCharacters] = useState([])
+	const [loading, setLoading] = useState(true)
 	useEffect(() => {
 		const fetchCharacters = async () => {
 			await api.get('character').then(data => setCharacters(data))
+			setLoading(false)
 		}
 		fetchCharacters()
 	}, [])
@@ -24,11 +26,19 @@ function App() {
 				</a>
 			</nav>
 			<div className="container">
-				<div className="row">
-					<div className="col-md-10 offset-md-1">
-						<List items={characters} />
+				{loading ? (
+					<section className="loader-container">
+						<div className="spinner-grow" role="status">
+							<span className="sr-only">Loading...</span>
+						</div>
+					</section>
+				) : (
+					<div className="row">
+						<div className="col-md-10 offset-md-1">
+							<Cards items={characters} groupBy={3} />
+						</div>
 					</div>
-				</div>
+				)}
 			</div>
 		</>
 	)

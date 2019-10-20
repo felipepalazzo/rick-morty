@@ -1,0 +1,11 @@
+.card-container {
+	margin-top: 2em;
+}
+
+.list-info {
+	padding-left: 0;
+}
+
+.list-info li + li {
+	margin-left: 10px;
+}
