@@ -30,7 +30,6 @@ function App() {
 		}
 		const fetchLocation = () => {
 			api.get('location', locationIds).then(data => {
-				console.log('returning locations...', data)
 				setLocations(data)
 			})
 		}

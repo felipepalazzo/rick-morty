@@ -1,17 +1,19 @@
 import React from 'react'
 import { chunk, find } from 'lodash'
 import { getId } from '../../helpers'
-import { Location } from '..'
+import { Location, EpisodeList } from '..'
 import './Cards.css'
 
 const gridLayout = 12
 
 export default function Cards({ items, groupBy, episodes, locations }) {
 	const chunks = chunk(items, groupBy)
-	// console.log('locations:', locations)
 	const getLocation = card =>
 		find(locations, ['id', getId(card.location.url)]) || {}
-	console.log('this is cards....', locations)
+	const getEps = card => {
+		const ids = card.episode.map(ep => getId(ep))
+		return episodes.filter(ep => ids.includes(ep.id))
+	}
 	return chunks.map((group, idx) => (
 		<div className="row card-container" key={idx}>
 			{group.map(card => (
@@ -40,7 +42,9 @@ export default function Cards({ items, groupBy, episodes, locations }) {
 							<li className="list-group-item">
 								{<Location {...getLocation(card)} />}
 							</li>
-							<li className="list-group-item"></li>
+							<li className="list-group-item">
+								<EpisodeList episodes={getEps(card)} />
+							</li>
 						</ul>
 					</div>
 				</div>
