@@ -1,18 +1,39 @@
 import React, { useState, useEffect } from 'react'
 import { Cards } from './components'
+import { uniq } from 'lodash'
+import { getId } from './helpers'
 import api from './api'
 import './App.css'
 
 function App() {
 	const [characters, setCharacters] = useState([])
-	const [loading, setLoading] = useState(true)
+	const [locations, setLocations] = useState([])
+	const [episodes, setEpisodes] = useState([])
 	useEffect(() => {
 		const fetchCharacters = async () => {
 			await api.get('character').then(data => setCharacters(data))
-			setLoading(false)
 		}
 		fetchCharacters()
 	}, [])
+	useEffect(() => {
+		if (!characters.length) {
+			return
+		}
+		const locationIds = uniq(
+			characters.map(char => getId(char.location.url))
+		)
+		const episodeIds = uniq(
+			characters.map(char => char.episode.map(e => getId(e))).flat()
+		)
+		const fetchEp = () => {
+			api.get('episode', episodeIds).then(data => setEpisodes(data))
+		}
+		const fetchLocation = () => {
+			api.get('location', locationIds).then(data => setLocations(data))
+		}
+		fetchEp()
+		fetchLocation()
+	}, [characters])
 	return (
 		<>
 			<nav className="navbar navbar-dark bg-primary">
@@ -26,7 +47,7 @@ function App() {
 				</a>
 			</nav>
 			<div className="container">
-				{loading ? (
+				{characters.length <= 0 ? (
 					<section className="loader-container">
 						<div className="spinner-grow" role="status">
 							<span className="sr-only">Loading...</span>
@@ -35,7 +56,12 @@ function App() {
 				) : (
 					<div className="row">
 						<div className="col-md-10 offset-md-1">
-							<Cards items={characters} groupBy={3} />
+							<Cards
+								items={characters}
+								locations={locations}
+								episodes={episodes}
+								groupBy={4}
+							/>
 						</div>
 					</div>
 				)}

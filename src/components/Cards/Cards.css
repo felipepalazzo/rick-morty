@@ -6,6 +6,6 @@
 	padding-left: 0;
 }
 
-.list-info li + li {
-	margin-left: 10px;
+.list-info li {
+	margin-right: 10px;
 }
