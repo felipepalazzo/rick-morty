@@ -1,19 +1,36 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
+import { List } from './components'
 import api from './api'
 import './App.css'
 
 function App() {
+	const [characters, setCharacters] = useState([])
 	useEffect(() => {
-		api.get('character').then(data => console.log('this is data:', data))
+		const fetchCharacters = async () => {
+			await api.get('character').then(data => setCharacters(data))
+		}
+		fetchCharacters()
 	}, [])
 	return (
-		<div className="App">
-			<header className="App-header">
-				<p>
-					Edit <code>src/App.js</code> and save to reload.
-				</p>
-			</header>
-		</div>
+		<>
+			<nav className="navbar navbar-dark bg-primary">
+				<a
+					className="navbar-brand"
+					href="https://www.imdb.com/title/tt2861424/"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					Ricky & Morty
+				</a>
+			</nav>
+			<div className="container">
+				<div className="row">
+					<div className="col-md-10 offset-md-1">
+						<List items={characters} />
+					</div>
+				</div>
+			</div>
+		</>
 	)
 }
 
