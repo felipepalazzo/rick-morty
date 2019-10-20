@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Cards } from './components'
+import { Cards, Pagination } from './components'
 import { uniq, compact } from 'lodash'
 import { getId } from './helpers'
 import api from './api'
@@ -9,12 +9,17 @@ function App() {
 	const [characters, setCharacters] = useState([])
 	const [locations, setLocations] = useState([])
 	const [episodes, setEpisodes] = useState([])
+	const [pages, setPages] = useState()
+	const [currentPage, setCurrentPage] = useState(1)
 	useEffect(() => {
 		const fetchCharacters = async () => {
-			await api.get('character').then(data => setCharacters(data))
+			await api.get('character', [], currentPage).then(data => {
+				setCharacters(data.results)
+				setPages(data.pages)
+			})
 		}
 		fetchCharacters()
-	}, [])
+	}, [currentPage])
 	useEffect(() => {
 		if (
 			characters === undefined ||
@@ -39,6 +44,9 @@ function App() {
 		fetchEp()
 		fetchLocation()
 	}, [characters])
+	const onPageClick = page => {
+		setCurrentPage(page)
+	}
 	return (
 		<>
 			<nav className="navbar navbar-dark bg-primary">
@@ -59,16 +67,27 @@ function App() {
 						</div>
 					</section>
 				) : (
-					<div className="row">
-						<div className="col-md-10 offset-md-1">
-							<Cards
-								items={characters}
-								locations={locations}
-								episodes={episodes}
-								groupBy={4}
-							/>
+					<>
+						<div className="row">
+							<div className="col-md-10 offset-md-1">
+								<Cards
+									items={characters}
+									locations={locations}
+									episodes={episodes}
+									groupBy={4}
+								/>
+							</div>
 						</div>
-					</div>
+						<div className="row">
+							<div className="col-md-10 offset-md-1">
+								<Pagination
+									total={pages}
+									current={currentPage}
+									onClick={onPageClick}
+								/>
+							</div>
+						</div>
+					</>
 				)}
 			</div>
 		</>
