@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Cards } from './components'
-import { uniq } from 'lodash'
+import { uniq, compact } from 'lodash'
 import { getId } from './helpers'
 import api from './api'
 import './App.css'
@@ -19,8 +19,8 @@ function App() {
 		if (!characters.length) {
 			return
 		}
-		const locationIds = uniq(
-			characters.map(char => getId(char.location.url))
+		const locationIds = compact(
+			uniq(characters.map(char => getId(char.location.url)))
 		)
 		const episodeIds = uniq(
 			characters.map(char => char.episode.map(e => getId(e))).flat()
@@ -29,7 +29,10 @@ function App() {
 			api.get('episode', episodeIds).then(data => setEpisodes(data))
 		}
 		const fetchLocation = () => {
-			api.get('location', locationIds).then(data => setLocations(data))
+			api.get('location', locationIds).then(data => {
+				console.log('returning locations...', data)
+				setLocations(data)
+			})
 		}
 		fetchEp()
 		fetchLocation()

@@ -4,5 +4,5 @@ export default {
 	get: (endpoint, multiple = []) =>
 		fetch(`${API_URL}/${endpoint}/${multiple}`)
 			.then(data => data.json())
-			.then(data => data.results)
+			.then(data => (multiple.length ? data : data.results))
 }

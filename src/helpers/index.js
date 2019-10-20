@@ -1,1 +1,1 @@
-export const getId = url => url.split('/').pop()
+export const getId = url => +url.split('/').pop()
