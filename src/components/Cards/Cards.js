@@ -2,6 +2,7 @@ import React from 'react'
 import { chunk, find } from 'lodash'
 import { getId } from '../../helpers'
 import { Location, EpisodeList } from '..'
+import PropTypes from 'prop-types'
 import './Cards.css'
 
 const gridLayout = 12
@@ -51,4 +52,11 @@ export default function Cards({ items, groupBy, episodes, locations }) {
 			))}
 		</div>
 	))
+}
+
+Cards.propTypes = {
+	items: PropTypes.array,
+	episodes: PropTypes.array,
+	locations: PropTypes.array,
+	groupBy: PropTypes.number
 }

@@ -21,3 +21,9 @@ export default function Location(props) {
 Location.defaultProps = {
 	residents: []
 }
+
+Location.propTypes = {
+	name: PropTypes.string,
+	dimension: PropTypes.string,
+	residents: PropTypes.array
+}

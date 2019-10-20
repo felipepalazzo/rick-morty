@@ -16,7 +16,10 @@ function App() {
 		fetchCharacters()
 	}, [])
 	useEffect(() => {
-		if (!characters.length) {
+		if (
+			characters === undefined ||
+			(characters && characters.length <= 0)
+		) {
 			return
 		}
 		const locationIds = compact(
@@ -48,8 +51,8 @@ function App() {
 					Ricky & Morty
 				</a>
 			</nav>
-			<div className="container">
-				{characters.length <= 0 ? (
+			<div className="container" style={{ paddingBottom: '5em' }}>
+				{characters && characters.length <= 0 ? (
 					<section className="loader-container">
 						<div className="spinner-grow" role="status">
 							<span className="sr-only">Loading...</span>
@@ -70,6 +73,12 @@ function App() {
 			</div>
 		</>
 	)
+}
+
+App.defaultProps = {
+	locations: [],
+	characters: [],
+	episodes: []
 }
 
 export default App
